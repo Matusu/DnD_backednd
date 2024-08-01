@@ -1,3 +1,5 @@
+using webapi.Dtos;
+
 namespace webapi.Models;
 
 public class User

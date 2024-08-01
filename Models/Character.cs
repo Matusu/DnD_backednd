@@ -7,6 +7,8 @@ public class Character
     public string? Name { get; set; }
     public int RaceId { get; set; }
     public Race? Race { get; set; }
+    public int ClassId { get; set; }
+    public Class? Class { get; set; }
     public int CampainId { get; set; }
     public Campain? Campain { get; set; }
     public int UserId { get; set; }

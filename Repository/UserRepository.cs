@@ -59,8 +59,12 @@ public class UserRepository : IUserRepository
             return userModel;
         }
         userModel.Username = userDto.Username;
-        userModel.Password = userDto.Password;
         await _context.SaveChangesAsync();
         return userModel;
+    }
+
+    public async Task<bool> UserExists(int id)
+    {
+        return await _context.User.AnyAsync(u => u.Id == id);
     }
 }

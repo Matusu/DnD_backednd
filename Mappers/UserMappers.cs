@@ -10,7 +10,6 @@ static public class UserMappers
         return new UserDto
         {
             Username = userModel.Username,
-            Password = userModel.Password,
         };
     }
     public static User ToUserFromCreateDto(this RegisterUserDto userDto)
