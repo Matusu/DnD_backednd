@@ -63,7 +63,7 @@ public class UserRepository : IUserRepository
         return userModel;
     }
 
-    public async Task<bool> UserExists(int id)
+    public async Task<bool> UserExistsAsync(int id)
     {
         return await _context.User.AnyAsync(u => u.Id == id);
     }

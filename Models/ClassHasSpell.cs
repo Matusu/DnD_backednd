@@ -1,6 +1,6 @@
 namespace webapi.Models;
 
-public class ClassHasSpells
+public class ClassHasSpell
 {
     public int Id { get; set; }
     public int SpellId { get; set; }

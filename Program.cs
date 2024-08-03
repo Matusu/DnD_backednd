@@ -22,10 +22,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
 builder.Services.AddScoped<ICampainRepository, CampainRepository>();
 builder.Services.AddScoped<IRaceRepository, RaceRepository>();
 builder.Services.AddScoped<IClassRepository, ClassRepository>();
+builder.Services.AddScoped<IFeatureRepository, FeatureRepository>();
+builder.Services.AddScoped<IHasFeatureRepository, HasFeatureRepository>();
+builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
+builder.Services.AddScoped<ISpellRepository, SpellRepository>();
+builder.Services.AddScoped<IClassHasSpellRepository, ClassHasSpellRepository>();
+builder.Services.AddScoped<ICharacterHasSpellRepository, CharacterHasSpellRepository>();
+
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -96,7 +96,7 @@ namespace webapi.Migrations
                     b.ToTable("Character");
                 });
 
-            modelBuilder.Entity("webapi.Models.CharacterHasSpells", b =>
+            modelBuilder.Entity("webapi.Models.CharacterHasSpell", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -106,9 +106,6 @@ namespace webapi.Migrations
 
                     b.Property<int>("CharacterId")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("Known")
-                        .HasColumnType("boolean");
 
                     b.Property<bool>("Prepared")
                         .HasColumnType("boolean");
@@ -141,7 +138,7 @@ namespace webapi.Migrations
                     b.ToTable("Class");
                 });
 
-            modelBuilder.Entity("webapi.Models.ClassHasSpells", b =>
+            modelBuilder.Entity("webapi.Models.ClassHasSpell", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -268,7 +265,7 @@ namespace webapi.Migrations
             modelBuilder.Entity("webapi.Models.Campain", b =>
                 {
                     b.HasOne("webapi.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Campains")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -279,25 +276,25 @@ namespace webapi.Migrations
             modelBuilder.Entity("webapi.Models.Character", b =>
                 {
                     b.HasOne("webapi.Models.Campain", "Campain")
-                        .WithMany()
+                        .WithMany("Characters")
                         .HasForeignKey("CampainId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("webapi.Models.Class", "Class")
-                        .WithMany()
+                        .WithMany("Characters")
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("webapi.Models.Race", "Race")
-                        .WithMany()
+                        .WithMany("Characters")
                         .HasForeignKey("RaceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("webapi.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Characters")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -311,7 +308,7 @@ namespace webapi.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("webapi.Models.CharacterHasSpells", b =>
+            modelBuilder.Entity("webapi.Models.CharacterHasSpell", b =>
                 {
                     b.HasOne("webapi.Models.Character", "Character")
                         .WithMany("CharacterHasSpells")
@@ -330,7 +327,7 @@ namespace webapi.Migrations
                     b.Navigation("Spell");
                 });
 
-            modelBuilder.Entity("webapi.Models.ClassHasSpells", b =>
+            modelBuilder.Entity("webapi.Models.ClassHasSpell", b =>
                 {
                     b.HasOne("webapi.Models.Class", "Class")
                         .WithMany("ClassHasSpells")
@@ -352,19 +349,19 @@ namespace webapi.Migrations
             modelBuilder.Entity("webapi.Models.HasFeature", b =>
                 {
                     b.HasOne("webapi.Models.Class", "Class")
-                        .WithMany("HasFeature")
+                        .WithMany("HasFeatures")
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("webapi.Models.Feature", "Feature")
-                        .WithMany()
+                        .WithMany("HasFeatures")
                         .HasForeignKey("FeatureId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("webapi.Models.Race", "Race")
-                        .WithMany("HasFeature")
+                        .WithMany("HasFeatures")
                         .HasForeignKey("RaceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -376,6 +373,11 @@ namespace webapi.Migrations
                     b.Navigation("Race");
                 });
 
+            modelBuilder.Entity("webapi.Models.Campain", b =>
+                {
+                    b.Navigation("Characters");
+                });
+
             modelBuilder.Entity("webapi.Models.Character", b =>
                 {
                     b.Navigation("CharacterHasSpells");
@@ -383,14 +385,23 @@ namespace webapi.Migrations
 
             modelBuilder.Entity("webapi.Models.Class", b =>
                 {
+                    b.Navigation("Characters");
+
                     b.Navigation("ClassHasSpells");
 
-                    b.Navigation("HasFeature");
+                    b.Navigation("HasFeatures");
+                });
+
+            modelBuilder.Entity("webapi.Models.Feature", b =>
+                {
+                    b.Navigation("HasFeatures");
                 });
 
             modelBuilder.Entity("webapi.Models.Race", b =>
                 {
-                    b.Navigation("HasFeature");
+                    b.Navigation("Characters");
+
+                    b.Navigation("HasFeatures");
                 });
 
             modelBuilder.Entity("webapi.Models.Spell", b =>
@@ -398,6 +409,13 @@ namespace webapi.Migrations
                     b.Navigation("CharacterHasSpells");
 
                     b.Navigation("ClassHasSpells");
+                });
+
+            modelBuilder.Entity("webapi.Models.User", b =>
+                {
+                    b.Navigation("Campains");
+
+                    b.Navigation("Characters");
                 });
 #pragma warning restore 612, 618
         }

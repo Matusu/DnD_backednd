@@ -19,6 +19,6 @@ public class Character
     public int Wisdom { get; set; }
     public int Constitution { get; set; }
     public int Charisma { get; set; }
-    public List<CharacterHasSpells>? CharacterHasSpells { get; set; }
+    public List<CharacterHasSpell>? CharacterHasSpells { get; set; }
 
 }

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using webapi.Dtos;
 using webapi.Mappers;
 using webapi.Repository;
 
@@ -19,6 +20,22 @@ public class RaceController : ControllerBase
         var race = await _raceRepo.GetAllAsync();
         var raceDto = race.Select(r => r.ToRaceDto());
         return Ok(raceDto);
+    }
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById([FromRoute] int id)
+    {
+        var race = await _raceRepo.GetByIdAsync(id);
+        if (race == null)
+            return NotFound();
+        return Ok(race.ToRaceDto());
+    }
+    [HttpPost]
+    public async Task<IActionResult> AddRace([FromBody] AddRace raceDto)
+    {
+        var race = await _raceRepo.AddRaceAsync(raceDto);
+        if (race == null)
+            return BadRequest("Race allready exists");
+        return CreatedAtAction(nameof(GetById), new { id = race.Id }, race.ToRaceDto());
     }
 
 }

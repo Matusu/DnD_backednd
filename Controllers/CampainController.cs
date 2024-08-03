@@ -37,7 +37,7 @@ public class CampainController : ControllerBase
     [HttpPost("{UserId}")]
     public async Task<IActionResult> CreateCampain([FromRoute] int UserId, [FromBody] CreateCampainDto campainDto)
     {
-        if (!await _userRepo.UserExists(UserId))
+        if (!await _userRepo.UserExistsAsync(UserId))
         {
             return BadRequest("User neexistuje");
         }

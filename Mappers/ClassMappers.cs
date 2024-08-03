@@ -9,8 +9,14 @@ public static class ClassMappers
     {
         return new ClassDto
         {
-            Id = classModel.Id,
             Name = classModel.Name,
+        };
+    }
+    public static Class ToClassFromCreate(this AddClass addClass)
+    {
+        return new Class
+        {
+            Name = addClass.Name
         };
     }
 }

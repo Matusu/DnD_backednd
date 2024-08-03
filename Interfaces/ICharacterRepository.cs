@@ -1,3 +1,4 @@
+using webapi.Dtos;
 using webapi.Models;
 
 namespace webapi.Interfaces;
@@ -5,5 +6,8 @@ namespace webapi.Interfaces;
 public interface ICharacterRepository
 {
     Task<List<Character>> GetAllAsync();
-    Task<Character?> GetByIdAsync(int id);
+    Task<Character?> CreateCharacterAsync(AddCharacterDto addCharacterDto);
+    Task<List<Feature>?> GetCharacterFeatureAsync(int id);
+    Task<List<Spell>?> GetCharacterSpellAsync(int id);
+    Task<List<Spell>?> GetPreparedCharacterSpellAsync(int id);
 }

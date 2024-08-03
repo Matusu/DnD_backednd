@@ -1,5 +1,6 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using webapi.Data;
 using webapi.Dtos;
@@ -28,9 +29,8 @@ public class UserController : ControllerBase
     {
         var user = await _userRepo.GetByIdAsync(id);
         if (user == null)
-        {
             return NotFound();
-        }
+
         return Ok(user.ToUserDto());
     }
     [HttpPost]

@@ -11,9 +11,9 @@ public class ApplicationDbContext : DbContext
     }
     public DbSet<Character> Character { get; set; }
     public DbSet<Campain> Campain { get; set; }
-    public DbSet<CharacterHasSpells> CharacterHasSpells { get; set; }
+    public DbSet<CharacterHasSpell> CharacterHasSpells { get; set; }
     public DbSet<Class> Class { get; set; }
-    public DbSet<ClassHasSpells> ClassHasSpells { get; set; }
+    public DbSet<ClassHasSpell> ClassHasSpells { get; set; }
     public DbSet<Feature> Feature { get; set; }
     public DbSet<HasFeature> HasFeature { get; set; }
     public DbSet<Race> Race { get; set; }

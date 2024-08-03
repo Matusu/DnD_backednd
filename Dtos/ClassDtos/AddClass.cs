@@ -1,7 +1,6 @@
 namespace webapi.Dtos;
 
-public class CharacterDto
+public class AddClass
 {
     public string? Name { get; set; }
-    public int UserId { get; set; }
 }

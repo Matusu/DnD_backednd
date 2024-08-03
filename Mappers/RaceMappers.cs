@@ -10,7 +10,13 @@ public static class RaceMappers
         return new RaceDto
         {
             Name = raceModel.Name,
-            Id = raceModel.Id,
+        };
+    }
+    public static Race ToRaceFromCreate(this AddRace raceDto)
+    {
+        return new Race
+        {
+            Name = raceDto.Name
         };
     }
 }
