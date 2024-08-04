@@ -11,8 +11,8 @@ public class Character
     public Class? Class { get; set; }
     public int CampainId { get; set; }
     public Campain? Campain { get; set; }
-    public int UserId { get; set; }
-    public User? User { get; set; }
+    public string? UserId { get; set; }
+    public appUser? User { get; set; }
     public int Streangth { get; set; }
     public int Dexterity { get; set; }
     public int Intelligence { get; set; }

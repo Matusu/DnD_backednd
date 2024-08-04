@@ -1,8 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using webapi.Dtos;
 using webapi.Interfaces;
 using webapi.Mappers;
-using webapi.Repository;
+using webapi.Models;
 
 namespace webapi.Controllers;
 
@@ -11,11 +14,11 @@ namespace webapi.Controllers;
 public class CampainController : ControllerBase
 {
     private readonly ICampainRepository _campainRepo;
-    private readonly IUserRepository _userRepo;
-    public CampainController(ICampainRepository campainRepo, IUserRepository userRepo)
+    private readonly UserManager<appUser> _userManager;
+    public CampainController(ICampainRepository campainRepo, UserManager<appUser> userManager)
     {
         _campainRepo = campainRepo;
-        _userRepo = userRepo;
+        _userManager = userManager;
     }
     [HttpGet]
     public async Task<IActionResult> Getall()
@@ -35,9 +38,10 @@ public class CampainController : ControllerBase
         return Ok(camapinModel.ToCampainDto());
     }
     [HttpPost("{UserId}")]
-    public async Task<IActionResult> CreateCampain([FromRoute] int UserId, [FromBody] CreateCampainDto campainDto)
+    public async Task<IActionResult> CreateCampain([FromRoute] string UserId, [FromBody] CreateCampainDto campainDto)
     {
-        if (!await _userRepo.UserExistsAsync(UserId))
+        var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == UserId);
+        if (user == null)
         {
             return BadRequest("User neexistuje");
         }

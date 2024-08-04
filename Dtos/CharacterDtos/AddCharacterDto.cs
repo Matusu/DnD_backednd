@@ -6,7 +6,7 @@ public class AddCharacterDto
     public int RaceId { get; set; }
     public int ClassId { get; set; }
     public int CampainId { get; set; }
-    public int UserId { get; set; }
+    public string? UserId { get; set; }
     public int Streangth { get; set; }
     public int Dexterity { get; set; }
     public int Intelligence { get; set; }

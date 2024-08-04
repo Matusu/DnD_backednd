@@ -13,7 +13,7 @@ public static class CampainMappers
             UserId = campain.UserId,
         };
     }
-    static public Campain ToCampainFromCreate(this CreateCampainDto createCampainDto, int UserId)
+    static public Campain ToCampainFromCreate(this CreateCampainDto createCampainDto, string UserId)
     {
         return new Campain
         {

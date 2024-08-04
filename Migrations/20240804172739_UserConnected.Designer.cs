@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using webapi.Data;
@@ -11,9 +12,11 @@ using webapi.Data;
 namespace webapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240804172739_UserConnected")]
+    partial class UserConnected
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,13 +53,13 @@ namespace webapi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7420bfef-b288-4cfe-9f9c-f166122722b7",
+                            Id = "62f654f5-2ee6-4bd2-ba9e-c39284de67c5",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "825663b0-6622-4cae-9c86-f61fed7c0a73",
+                            Id = "07b54f00-300a-46df-8265-14462fac2404",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -388,6 +391,25 @@ namespace webapi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Spell");
+                });
+
+            modelBuilder.Entity("webapi.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Password")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("webapi.Models.appUser", b =>
