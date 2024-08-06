@@ -1,3 +1,6 @@
+using System.Runtime.InteropServices;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -33,7 +36,21 @@ public class AccountController : ControllerBase
         if (!result.Succeeded)
             return Unauthorized("Invalid password or password");
         _tokenService.SetTokenInsideCookie(_tokenService.CreateToken(user), HttpContext);
-        return Ok();
+        return Ok(new ResponsDto
+        {
+            UserName = loginDto.UserName
+        });
+    }
+    [HttpGet]
+    public async Task<IActionResult> GetCurrentUser()
+    {
+        var userId = User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+        if (userId != null)
+        {
+            var user = await _tokenService.GetUserByIdAsync(userId.Value);
+            return Ok(user);
+        }
+        return BadRequest("No user found");
     }
 
     [HttpPost("register")]

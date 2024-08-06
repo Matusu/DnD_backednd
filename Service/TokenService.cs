@@ -3,7 +3,10 @@ using System.Security.Claims;
 using System.Text;
 using System.Xml.Schema;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using webapi.Data;
+using webapi.Dtos;
 using webapi.Interfaces;
 using webapi.Models;
 
@@ -12,11 +15,13 @@ namespace webapi.Service;
 public class TokenService : ITokenService
 {
     private readonly IConfiguration _config;
+    private readonly ApplicationDbContext _context;
     private readonly SymmetricSecurityKey _key;
-    public TokenService(IConfiguration config)
+    public TokenService(IConfiguration config, ApplicationDbContext context)
     {
         _config = config;
         _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:SigningKey"] ?? ""));
+        _context = context;
     }
     public string CreateToken(appUser user)
     {
@@ -38,6 +43,11 @@ public class TokenService : ITokenService
         var tokenHandler = new JwtSecurityTokenHandler();
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);
+    }
+    public async Task<ResponsDto> GetUserByIdAsync(string id)
+    {
+        var user = await _context.Users.FirstAsync(x => x.Id == id);
+        return new ResponsDto { UserName = user.UserName };
     }
 
     public void SetTokenInsideCookie(string token, HttpContext context)

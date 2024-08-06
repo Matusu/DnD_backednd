@@ -12,6 +12,19 @@ using webapi.Repository;
 using webapi.Service;
 
 var builder = WebApplication.CreateBuilder(args);
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:5173").AllowAnyHeader();
+                          policy.WithOrigins("http://localhost:5173").AllowAnyMethod();
+                          policy.WithOrigins("http://localhost:5173").AllowAnyOrigin();
+                          policy.WithOrigins("http://localhost:5173").AllowCredentials();
+                      });
+});
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -117,6 +130,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthentication();
 app.UseAuthorization();
