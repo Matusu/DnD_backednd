@@ -39,4 +39,17 @@ public class TokenService : ITokenService
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);
     }
+
+    public void SetTokenInsideCookie(string token, HttpContext context)
+    {
+        context.Response.Cookies.Append("accesToken", token,
+        new CookieOptions
+        {
+            Expires = DateTimeOffset.UtcNow.AddMinutes(5),
+            HttpOnly = true,
+            IsEssential = true,
+            Secure = true,
+            SameSite = SameSiteMode.None
+        });
+    }
 }

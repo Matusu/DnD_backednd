@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Dtos;
 using webapi.Interfaces;
@@ -14,6 +15,7 @@ public class FeatureController : ControllerBase
         _featureRepo = featureRepo;
     }
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetAll()
     {
         var feature = await _featureRepo.GettAllAsync();
@@ -21,6 +23,7 @@ public class FeatureController : ControllerBase
         return Ok(featureDto);
     }
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<IActionResult> GetById([FromRoute] int id)
     {
         var feature = await _featureRepo.GetByIdAsync(id);
@@ -30,6 +33,7 @@ public class FeatureController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> CreateNewFeature([FromBody] AddFeature featureDto)
     {
         var featureModel = await _featureRepo.CreateFeatureAsync(featureDto);

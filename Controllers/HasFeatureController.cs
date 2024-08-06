@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Dtos;
 using webapi.Interfaces;
@@ -15,6 +16,7 @@ public class HasFeatureController : ControllerBase
         _hasFeatureRepo = hasFeatureRepo;
     }
     [HttpGet("{classId} {raceId}")]
+    [Authorize]
     public async Task<IActionResult> GetAllFeatures([FromRoute] int classId, [FromRoute] int raceId)
     {
         var features = await _hasFeatureRepo.GetCharacterFeaturesAsync(classId, raceId);
@@ -22,6 +24,7 @@ public class HasFeatureController : ControllerBase
         return Ok(featuresDto);
     }
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> AddFeatureLink(HasFeatureDto hasFeatureDto)
     {
         var hasFeatureModel = await _hasFeatureRepo.AddFeatureLinkAsync(hasFeatureDto);

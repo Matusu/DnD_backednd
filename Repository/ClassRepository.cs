@@ -41,12 +41,12 @@ public class ClassRepository : IClassRepository
         return classModel;
     }
 
-    public async Task<List<Spell>?> GetClassSpells(int classId)
+    public async Task<List<Spell>?> GetClassSpellsAsync(int classId)
     {
         var classModel = await _context.Class.FirstOrDefaultAsync(c => c.Id == classId);
         if (classModel == null)
             return null;
-        var spells = await _classHasSpellRepo.GetClassSpells(classModel.Id);
+        var spells = await _classHasSpellRepo.GetClassSpellsAsync(classModel.Id);
         return spells.Select(s => s.Spell ?? new Spell { }).ToList();
     }
 }

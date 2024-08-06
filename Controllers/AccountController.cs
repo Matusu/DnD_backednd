@@ -21,7 +21,7 @@ public class AccountController : ControllerBase
         _signingManager = signInManager;
     }
     [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginDto loginDto)
+    public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -32,12 +32,8 @@ public class AccountController : ControllerBase
         var result = await _signingManager.CheckPasswordSignInAsync(user, loginDto.Password ?? "", false);
         if (!result.Succeeded)
             return Unauthorized("Invalid password or password");
-        return Ok(new NewUserDto
-        {
-            UserName = user.UserName,
-            Email = user.Email,
-            Token = _tokenService.CreateToken(user)
-        });
+        _tokenService.SetTokenInsideCookie(_tokenService.CreateToken(user), HttpContext);
+        return Ok();
     }
 
     [HttpPost("register")]
@@ -57,14 +53,10 @@ public class AccountController : ControllerBase
             {
                 var roleResult = await _userManager.AddToRoleAsync(user, "User");
                 if (roleResult.Succeeded)
-                    return Ok(
-                        new NewUserDto
-                        {
-                            UserName = user.UserName,
-                            Email = user.Email,
-                            Token = _tokenService.CreateToken(user)
-                        }
-                    );
+                {
+                    _tokenService.SetTokenInsideCookie(_tokenService.CreateToken(user), HttpContext);
+                    return Ok();
+                }
                 else
                     return StatusCode(500, roleResult.Errors);
             }

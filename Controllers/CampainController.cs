@@ -21,6 +21,7 @@ public class CampainController : ControllerBase
         _userManager = userManager;
     }
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> Getall()
     {
         var campainModel = await _campainRepo.GetAllAsync();
@@ -28,6 +29,7 @@ public class CampainController : ControllerBase
         return Ok(campainDto);
     }
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<IActionResult> GetById([FromRoute] int id)
     {
         var camapinModel = await _campainRepo.GetByIdAsync(id);
@@ -38,6 +40,7 @@ public class CampainController : ControllerBase
         return Ok(camapinModel.ToCampainDto());
     }
     [HttpPost("{UserId}")]
+    [Authorize]
     public async Task<IActionResult> CreateCampain([FromRoute] string UserId, [FromBody] CreateCampainDto campainDto)
     {
         var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == UserId);

@@ -8,5 +8,5 @@ public interface IClassRepository
     Task<List<Class>> GetAllAsync();
     Task<Class?> GetByIdAsync(int id);
     Task<Class?> AddClassAsync(AddClass classDto);
-    Task<List<Spell>?> GetClassSpells(int classId);
+    Task<List<Spell>?> GetClassSpellsAsync(int classId);
 }

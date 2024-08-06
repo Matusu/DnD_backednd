@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Dtos;
 using webapi.Interfaces;
@@ -14,6 +15,7 @@ public class CharacterController : ControllerBase
         _characterRepo = characterRepo;
     }
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetAll()
     {
         var characterModel = await _characterRepo.GetAllAsync();
@@ -21,6 +23,7 @@ public class CharacterController : ControllerBase
         return Ok(characterDto);
     }
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> CreateCharacter([FromBody] AddCharacterDto addCharacterDto)
     {
         var character = await _characterRepo.CreateCharacterAsync(addCharacterDto);
@@ -29,6 +32,7 @@ public class CharacterController : ControllerBase
         return Ok(character);
     }
     [HttpGet("{id}")]
+    [Authorize]
     // public async Task<IActionResult> GetCaracterFeatures([FromRoute] int id)
     // {
     //     var features = await _characterRepo.GetCharacterFeatureAsync(id);

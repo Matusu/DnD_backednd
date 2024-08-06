@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Dtos;
 using webapi.Interfaces;
@@ -14,6 +15,7 @@ public class SpellController : ControllerBase
         _spellRepo = spellRepo;
     }
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetAll()
     {
         var spells = await _spellRepo.GetAllAsync();
@@ -21,6 +23,7 @@ public class SpellController : ControllerBase
         return Ok(spellsDto);
     }
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> AddSpell([FromBody] AddSpellDto addSpellDto)
     {
         var spellModel = await _spellRepo.AddSpellAsync(addSpellDto);

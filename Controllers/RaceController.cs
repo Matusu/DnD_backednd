@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Dtos;
 using webapi.Mappers;
@@ -15,6 +16,7 @@ public class RaceController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetAll()
     {
         var race = await _raceRepo.GetAllAsync();
@@ -22,6 +24,7 @@ public class RaceController : ControllerBase
         return Ok(raceDto);
     }
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<IActionResult> GetById([FromRoute] int id)
     {
         var race = await _raceRepo.GetByIdAsync(id);
@@ -30,6 +33,7 @@ public class RaceController : ControllerBase
         return Ok(race.ToRaceDto());
     }
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> AddRace([FromBody] AddRace raceDto)
     {
         var race = await _raceRepo.AddRaceAsync(raceDto);

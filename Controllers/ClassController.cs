@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Dtos;
 using webapi.Interfaces;
@@ -16,6 +17,7 @@ public class ClassController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetAll()
     {
         var classes = await _classRepo.GetAllAsync();
@@ -31,15 +33,17 @@ public class ClassController : ControllerBase
     //     return Ok(classModel.ToClassDto());
     // }
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<IActionResult> GetClassSpells([FromRoute] int id)
     {
-        var spellsModel = await _classRepo.GetClassSpells(id);
+        var spellsModel = await _classRepo.GetClassSpellsAsync(id);
         if (spellsModel == null)
             return BadRequest("No spells");
         var spellsDto = spellsModel.Select(s => s.ToSpellDto());
         return Ok(spellsDto);
     }
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> AddClass([FromBody] AddClass classDto)
     {
         var classModel = await _classRepo.AddClassAsync(classDto);

@@ -27,7 +27,7 @@ public class ClassHasSpellRepository : IClassHasSpellRepository
         return await _context.ClassHasSpells.ToListAsync();
     }
 
-    public async Task<List<ClassHasSpell>> GetClassSpells(int classId)
+    public async Task<List<ClassHasSpell>> GetClassSpellsAsync(int classId)
     {
         return await _context.ClassHasSpells.Where(c => c.ClassId == classId).Include(c => c.Spell).ToListAsync();
     }

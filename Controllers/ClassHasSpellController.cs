@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Dtos;
 using webapi.Interfaces;
@@ -14,6 +15,7 @@ public class ClassHasSpellController : ControllerBase
         _classHasSpellRepo = classHasSpellRepo;
     }
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetAll()
     {
         var classHasSpellModel = await _classHasSpellRepo.GetAllAsync();
@@ -21,6 +23,7 @@ public class ClassHasSpellController : ControllerBase
         return Ok(classHasSpellDto);
     }
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> AddSpellToClass([FromBody] AddSpellToClassDto addSpellToClassDto)
     {
         var classHasSpell = await _classHasSpellRepo.AddSpellToClassAsync(addSpellToClassDto);
